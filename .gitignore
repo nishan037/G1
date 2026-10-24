@@ -8,5 +8,6 @@ models/
 archive/downloads/
 .env
 .env.*
+!.env.example
 APIKEY*
 *.rtf

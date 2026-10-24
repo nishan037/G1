@@ -12,6 +12,17 @@ Working PC apps are preserved with `_test.py` names; physical G1 apps use the or
 
 `en5` is an example; choose the actual laptop adapter connected to G1. **Read [the first-connection runbook](docs/G1_FIRST_CONNECTION.md) before testing physical commands.** Robot services and permissions must be verified; the existence of SDK code does not establish support on G1 Standard.
 
+## Setup
+
+Conversation mode needs an Ollama Cloud API key. Keep it out of git:
+
+```bash
+cp .env.example .env
+# edit .env and set OLLAMA_API_KEY=<your key>
+```
+
+Alternatively `export OLLAMA_API_KEY=...`. Environment variables override `.env`. `.env` is git-ignored; the apps fail with a clear error if the key is missing.
+
 ## Basic commands
 
 `wave`, `clap`, `shake hands`, `hands up`, `high five`, `hug`, `heart`, `walk`, `walk backward`, `turn left`, `turn right`, `stop`, `help`, `quit`. Physical actions must be discovered from the robot. Physical walking additionally requires `--enable-walking` and is bounded to short requests.

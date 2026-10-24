@@ -14,6 +14,26 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'apps'))
 from g1_control_test import LocalSpeaker
 
+
+def load_dotenv(path=ROOT / '.env'):
+    """Minimal .env loader: KEY=VALUE lines; existing environment variables win."""
+    try:
+        lines = Path(path).read_text().splitlines()
+    except OSError:
+        return
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        name, value = line.split('=', 1)
+        name = name.strip().removeprefix('export ').strip()
+        value = value.strip().strip('"').strip("'")
+        if name and name not in os.environ:
+            os.environ[name] = value
+
+
+load_dotenv()
+
 DEFAULT_MODEL = 'gemma4:31b'
 SYSTEM_PROMPT = (
     'You are G1, a friendly robot assistant in a voice-only demonstration. '
@@ -35,9 +55,9 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 class OllamaCloud:
     def __init__(self, model=None, timeout=25):
-        self.key = os.environ.get('OLLAMA_API_KEY', '').strip() or '3000e2ff145f4068a241628f2dfa7279.aCJ7d-FOx8tuIspH-2kYCT4G'
+        self.key = os.environ.get('OLLAMA_API_KEY', '').strip()
         if not self.key:
-            raise CloudError('OLLAMA_API_KEY is not set. See docs/ollama_cloud_conversation.md.')
+            raise CloudError('OLLAMA_API_KEY is not set. Export it or add it to a .env file in the repo root (copy .env.example). See docs/ollama_cloud_conversation.md.')
         self.model = model or os.environ.get('OLLAMA_MODEL', DEFAULT_MODEL)
         self.timeout = timeout
 
