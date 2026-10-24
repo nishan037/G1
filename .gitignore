@@ -5,7 +5,6 @@ __pycache__/
 .DS_Store
 logs/*.log
 models/
-archive/downloads/
 .env
 .env.*
 !.env.example

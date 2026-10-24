@@ -48,9 +48,8 @@ Launchers run preflight automatically; failed required checks block launch. Read
 
 - Four app files under `apps/`, plus independent camera detection under `apps/vision/`.
 - `launch.py` and `preflight.py`: entry points/readiness checks.
-- `models/`, `motions/`, `assets/audio/`: recognition/detection assets and future movement/audio definitions.
+- `models/`: speech-recognition and detection models (git-ignored; provided locally).
 - `tests/`, `docs/`, `logs/`: checks, guides, and logs.
-- `archive/before_deployment_split.zip`: copies from before this change. Earlier consolidation backups also remain. Saved cloud configuration is present in app files and backups: keep them private.
 - Existing `.venv`, `.venv-g1`, `unitree_sdk2_python`, `unitree_mujoco`, and `cyclonedds` paths are preserved. These environments are Mac-specific; Linux/Raspberry Pi deployments require rebuilding them.
 
 Ollama key instructions: [cloud conversation guide](docs/ollama_cloud_conversation.md). Environment variable `OLLAMA_API_KEY` overrides saved configuration. Test and physical conversation apps preserve the working configuration, but prompts accurately distinguish their capabilities. Neither app converts LLM replies into movement commands.
