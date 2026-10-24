@@ -14,6 +14,22 @@ spec.loader.exec_module(m)
 
 
 class CloudTests(unittest.TestCase):
+    def test_missing_key_raises_clear_error(self):
+        with patch.dict(os.environ, {}, clear=True):
+            with self.assertRaises(m.CloudError) as ctx:
+                m.OllamaCloud()
+        self.assertIn('OLLAMA_API_KEY is not set', str(ctx.exception))
+
+    def test_dotenv_loader_does_not_override_environment(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile('w', suffix='.env', delete=False) as fh:
+            fh.write('# comment\nOLLAMA_API_KEY="from-file"\nOLLAMA_MODEL=file-model\n')
+        with patch.dict(os.environ, {'OLLAMA_MODEL': 'env-model'}, clear=True):
+            m.load_dotenv(fh.name)
+            self.assertEqual('from-file', os.environ['OLLAMA_API_KEY'])
+            self.assertEqual('env-model', os.environ['OLLAMA_MODEL'])
+        os.unlink(fh.name)
+
     def test_environment_key_overrides_saved_configuration(self):
         with patch.dict(os.environ, {'OLLAMA_API_KEY': 'unit-test-override'}):
             self.assertEqual('unit-test-override', m.OllamaCloud().key)

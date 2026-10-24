@@ -7,5 +7,6 @@ logs/*.log
 models/
 .env
 .env.*
+!.env.example
 APIKEY*
 *.rtf
