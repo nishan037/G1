@@ -1,0 +1,12 @@
+.venv/
+.venv-g1/
+__pycache__/
+*.py[cod]
+.DS_Store
+logs/*.log
+models/
+archive/downloads/
+.env
+.env.*
+APIKEY*
+*.rtf
